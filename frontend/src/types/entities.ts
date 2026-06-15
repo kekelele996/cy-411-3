@@ -59,6 +59,17 @@ export interface AuditLog {
   createdAt: string;
 }
 
+export interface ActivityTemplate {
+  id: number;
+  userId: number;
+  name: string;
+  category: ActivityCategory;
+  subType: string;
+  unit: string;
+  note?: string | null;
+  createdAt: string;
+}
+
 export interface RankingItem {
   rank: number;
   userId: number;

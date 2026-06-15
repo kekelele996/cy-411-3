@@ -51,6 +51,20 @@ CREATE TABLE IF NOT EXISTS activities (
   KEY idx_activity_category (category)
 );
 
+CREATE TABLE IF NOT EXISTS activity_templates (
+  id BIGINT PRIMARY KEY AUTO_INCREMENT,
+  user_id BIGINT NOT NULL,
+  name VARCHAR(64) NOT NULL,
+  category ENUM('transport','energy','food','shopping') NOT NULL,
+  sub_type VARCHAR(64) NOT NULL,
+  unit VARCHAR(32) NOT NULL,
+  note VARCHAR(255) NULL,
+  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  CONSTRAINT fk_activity_templates_user FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+  UNIQUE KEY uk_template_user_name (user_id, name),
+  KEY idx_template_user (user_id)
+);
+
 CREATE TABLE IF NOT EXISTS goals (
   id BIGINT PRIMARY KEY AUTO_INCREMENT,
   user_id BIGINT NOT NULL,
@@ -107,6 +121,12 @@ INSERT IGNORE INTO activities (id, user_id, factor_id, category, sub_type, amoun
 INSERT IGNORE INTO goals (id, user_id, title, target_value, period_type, start_date, end_date, status) VALUES
   (1, 1, 'Keep June emissions under 120 kg', 120.00, 'month', DATE_FORMAT(CURRENT_DATE(), '%Y-%m-01'), LAST_DAY(CURRENT_DATE()), 'active'),
   (2, 1, 'Reduce transport carbon this week', 20.00, 'week', DATE_SUB(CURRENT_DATE(), INTERVAL WEEKDAY(CURRENT_DATE()) DAY), DATE_ADD(DATE_SUB(CURRENT_DATE(), INTERVAL WEEKDAY(CURRENT_DATE()) DAY), INTERVAL 6 DAY), 'active');
+
+INSERT IGNORE INTO activity_templates (id, user_id, name, category, sub_type, unit, note) VALUES
+  (1, 1, '日常通勤-地铁', 'transport', 'metro', 'km', '工作日上下班'),
+  (2, 1, '办公室用电', 'energy', 'electricity', 'kWh', '每日办公用电'),
+  (3, 1, '午餐-牛肉餐', 'food', 'beef-meal', 'meal', '工作日午餐'),
+  (4, 1, '网购快递', 'shopping', 'parcel', 'item', '网购包裹');
 
 INSERT IGNORE INTO audit_logs (id, user_id, action, entity, entity_id, detail, ip) VALUES
   (1, 1, 'seed', 'System', 1, 'System[id=1] seed completed: demo data ready', '127.0.0.1');

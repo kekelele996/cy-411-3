@@ -1,5 +1,9 @@
 export const Messages = {
   FRONTEND_ACTIVITY_SAVED: '活动记录已同步到碳账本',
+  FRONTEND_TEMPLATE_SAVED: '模板已保存',
+  FRONTEND_TEMPLATE_UPDATED: '模板已更新',
+  FRONTEND_TEMPLATE_DELETED: '模板已删除',
+  FRONTEND_TEMPLATE_APPLIED: '模板已套用',
   FRONTEND_GOAL_SAVED: '减排目标已更新',
   FRONTEND_PROFILE_SAVED: '个人资料已保存',
   FRONTEND_FACTOR_REQUIRED: '请先选择匹配的排放因子',
